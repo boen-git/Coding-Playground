@@ -21,3 +21,25 @@ class Solution:
 
 因此, 首先对nums进行排序, 然后将下标[0, m-1]范围内的每个nums[i], 与下标[n-m, n-1]范围内的每个nums[j]尝试进行匹配. 若所有的元素都可成功匹配, 则判定可以找到m组匹配.
 
+```python
+class Solution:
+    def maxNumOfMarkedIndices(self, nums: List[int]) -> int:
+        nums.sort()
+        n = len(nums)
+        ## r 初始
+        l, r = 0, n // 2
+        ## 如果在前m个数中, 全满足条件, 返回真
+        def check(m):
+            for i in range(m):
+                if 2 * nums[i] > nums[n - m + i]:
+                    return False
+            return True
+        ## 使用二分查找的思想来不断缩小查找范围
+        while l < r:
+            m = (l + r + 1) // 2
+            if check(m):
+                l = m 
+            else: 
+                r = m - 1
+        return l * 2
+```
